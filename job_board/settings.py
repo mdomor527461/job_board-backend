@@ -27,6 +27,8 @@ SECRET_KEY = 'django-insecure-!=689d840%qk)4r2at9b@xo-s=o7qwq$+#q0wo4co#+^kz-u%1
 
 
 CSRF_TRUSTED_ORIGINS = ['https://job-board-backend-zxvu.onrender.com','https://*.127.0.0.1']
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -48,6 +50,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'djoser',
     'jobs',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -58,6 +61,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 ]
 
 ROOT_URLCONF = 'job_board.urls'
