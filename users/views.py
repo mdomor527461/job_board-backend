@@ -53,7 +53,7 @@ class UserLoginApiView(APIView):
         return Response(serializer.errors, status=400)
     
 class UserLogoutView(APIView):
-    def get(self, request):
-        # request.user.auth_token.delete()
+    def post(self, request):
+        # request.user.auth_token.delete()  # If you're using token authentication
         logout(request)
-        return redirect('api-login')
+        return Response({"detail": "Logged out successfully"}, status=200)
