@@ -83,7 +83,7 @@ class JobApplicantsView(generics.ListAPIView):
 
 class JobSeekerDashboardView(generics.ListAPIView):
     serializer_class = JobApplicationSerializer
-
+    ermission_classes = [IsAuthenticated]
     def get_queryset(self):
         return JobApplication.objects.filter(applicant=self.request.user)
     
