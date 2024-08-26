@@ -58,12 +58,16 @@ class JobApplicationCreateView(generics.CreateAPIView):
     
 
 
+
+
 class EmployerDashboardView(generics.ListAPIView):
     serializer_class = JobSerializer
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        return Job.objects.filter(employer=self.request.user)
+        user = self.request.user
+        return Job.objects.filter(employer=user)
+
 
 class JobDetailUpdateView(generics.RetrieveUpdateAPIView):
     serializer_class = JobSerializer
