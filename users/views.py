@@ -7,7 +7,9 @@ from rest_framework.views import APIView
 from . import serializers
 from django.contrib.auth import authenticate, login,logout
 from django.shortcuts import redirect
+from rest_framework.permissions import AllowAny
 class UserCreateView(generics.CreateAPIView):
+    permission_classes = [AllowAny]
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
@@ -28,6 +30,7 @@ class UserCreateView(generics.CreateAPIView):
 #         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class UserLoginApiView(APIView):
+    permission_classes = [AllowAny]
     def post(self, request):
         # Check if the content type is JSON or Form Data
         if request.content_type == 'application/json':

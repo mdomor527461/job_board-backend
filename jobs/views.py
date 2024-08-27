@@ -7,12 +7,12 @@ from rest_framework.exceptions import PermissionDenied
 from rest_framework import status
 from django.conf import settings
 from django.core.mail import send_mail
-
+from rest_framework.permissions import AllowAny
 
 class JobListCreateView(generics.ListCreateAPIView):
     queryset = Job.objects.all()
     serializer_class = JobSerializer
-
+    permission_classes = [AllowAny]
     def perform_create(self, serializer):
         if self.request.user.user_type == 'employer':
             serializer.save(employer=self.request.user)
