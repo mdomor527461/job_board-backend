@@ -2,18 +2,24 @@ from rest_framework import serializers
 from .models import Job,JobApplication,Category
 
 class JobSerializer(serializers.ModelSerializer):
-    employer = serializers.ReadOnlyField(source='employer.username')
+    category = serializers.SerializerMethodField()
 
     class Meta:
         model = Job
         fields = '__all__'
 
+    def get_category(self, obj):
+        return obj.category.name
+
 class JobApplicationSerializer(serializers.ModelSerializer):
     applicant = serializers.ReadOnlyField(source='applicant.username')
+    job = serializers.SerializerMethodField()
     class Meta:
         model = JobApplication
         fields = '__all__'
         read_only_fields = ['job']
+    def get_job(self,obj):
+        return obj.job.title
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
