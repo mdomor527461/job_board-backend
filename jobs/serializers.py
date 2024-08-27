@@ -2,11 +2,11 @@ from rest_framework import serializers
 from .models import Job,JobApplication,Category
 
 class JobSerializer(serializers.ModelSerializer):
-    category = serializers.SerializerMethodField()
+    # category = serializers.SerializerMethodField()
 
     class Meta:
         model = Job
-        fields = '__all__'
+        fields = ['id', 'employer', 'title', 'description', 'requirements', 'location', 'company_name', 'date_posted', 'category']
 
     def get_category(self, obj):
         return obj.category.name
