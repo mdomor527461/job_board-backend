@@ -18,6 +18,11 @@ class JobListCreateView(generics.ListCreateAPIView):
             serializer.save(employer=self.request.user)
         else:
             raise PermissionDenied({"error": "Only employers can create job listings."})
+    def get_queryset(self):
+        category_id = self.request.query_params.get('category', None)
+        if category_id is not None:
+            return Job.objects.filter(category__id=category_id)
+        return Job.objects.all()
 
 class JobDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Job.objects.all()
@@ -101,3 +106,7 @@ class CategoryListView(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         serializer.save()
        
+class JobListByCategoryView(generics.ListAPIView):
+    serializer_class = JobSerializer
+
+    
