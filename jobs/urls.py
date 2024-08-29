@@ -12,7 +12,7 @@ urlpatterns = [
     #job-seeker api
     path('jobs/<int:job_id>/apply/', JobApplicationCreateView.as_view(), name='job-apply'),#apply api
     path('job-seeker/dashboard/', JobSeekerDashboardView.as_view(), name='job-seeker-dashboard'),#dashboard or View api
-    path('job-seeker/dashboard/<int:pk>', JobSeekerDetailView.as_view(), name='job-seeker-detail-view'),#dashboard update api
+    path('job-seeker/dashboard/<int:pk>',JobSeekerDetailView.as_view(), name='job-seeker-detail-view'),#dashboard update api
     #category api
     path('categories/', CategoryListView.as_view(), name='category-list'),
 ]
