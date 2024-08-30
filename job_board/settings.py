@@ -12,7 +12,8 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import environ
-
+import os
+import dj_database_url
 env = environ.Env()
 environ.Env.read_env()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -99,24 +100,33 @@ WSGI_APPLICATION = 'job_board.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
+
+
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'postgres',
+#         'USER': 'postgres',
+#         'PASSWORD': '123',
+#         'HOST': 'localhost',  # or your PostgreSQL server address
+#         'PORT': '5432',  # default port for PostgreSQL
 #     }
 # }
 
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'postgres',
-        'PASSWORD': '123',
-        'HOST': 'localhost',  # or your PostgreSQL server address
-        'PORT': '5432',  # default port for PostgreSQL
-    }
-}
+# DATABASES = {
+#     'default': dj_database_url.config(
+#         default=os.getenv('postgresql://job_board_ka0p_user:RFykhwzfacNSGE450PWNQF9TWklFA8mO@dpg-cr8ro8g8fa8c73bnbsgg-a/job_board_ka0p')
+#     )
+# }
+
+
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
