@@ -1,6 +1,7 @@
 from django.db import models
 from users.models import User
-
+from django.db import models
+from cloudinary.models import CloudinaryField
 class Category(models.Model):
     name = models.CharField(max_length=255)
     
@@ -24,7 +25,7 @@ class Job(models.Model):
 class JobApplication(models.Model):
     job = models.ForeignKey(Job, on_delete=models.CASCADE, related_name='applications')
     applicant = models.ForeignKey(User, on_delete=models.CASCADE)
-    resume = models.FileField(upload_to='resumes/')
+    resume = CloudinaryField('resume', resource_type='auto')
     applied_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

@@ -12,12 +12,18 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import environ
+import cloudinary
+
 env = environ.Env()
 environ.Env.read_env()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
+cloudinary.config(
+    cloud_name='dtinvdr6a',
+    api_key='188471628827559',        
+    api_secret='mj-KhQaH6U2V2aE5PcymbkuxWPA', 
+)
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
@@ -59,6 +65,7 @@ INSTALLED_APPS = [
     'djoser',
     'jobs',
     'corsheaders',
+    'cloudinary',
 ]
 
 MIDDLEWARE = [
@@ -169,7 +176,9 @@ EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
 
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+MEDIA_URL = '/media/'
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
