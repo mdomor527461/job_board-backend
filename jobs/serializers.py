@@ -6,7 +6,7 @@ class JobSerializer(serializers.ModelSerializer):
     employer_name = serializers.StringRelatedField(source='employer')
     class Meta:
         model = Job
-        fields = ['id', 'employer','employer_name', 'title', 'description', 'requirements', 'location', 'company_name', 'date_posted', 'category','category_name']
+        fields = ['id', 'employer','employer_name', 'title', 'description', 'requirements', 'location', 'company_name', 'date_posted', 'category','category_name','icon']
 
     def get_category(self, obj):
         return obj.category.name
@@ -18,6 +18,7 @@ class JobApplicationSerializer(serializers.ModelSerializer):
         model = JobApplication
         fields = '__all__'
         read_only_fields = ['job']
+        
     def get_job(self,obj):
         return obj.job.title
 
