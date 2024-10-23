@@ -15,7 +15,7 @@ IMAGEBB_API_KEY = '60f5767e7375b712f0cc7276b0840596'
 class JobListCreateView(generics.ListCreateAPIView):
     queryset = Job.objects.all()
     serializer_class = JobSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
     def post(self, request):
         if self.request.user.user_type == "employer":
             serializer = JobSerializer(data=request.data)
