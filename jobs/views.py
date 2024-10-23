@@ -1,3 +1,4 @@
+import requests
 from rest_framework import generics
 from .models import Job,JobApplication,Category
 from .serializers import JobSerializer,JobApplicationSerializer,CategorySerializer
@@ -9,15 +10,43 @@ from django.conf import settings
 from django.core.mail import send_mail
 from rest_framework.permissions import AllowAny
 
+IMAGEBB_API_KEY = '60f5767e7375b712f0cc7276b0840596'
+
 class JobListCreateView(generics.ListCreateAPIView):
     queryset = Job.objects.all()
     serializer_class = JobSerializer
-    permission_classes = [AllowAny]
-    def perform_create(self, serializer):
-        if self.request.user.user_type == 'employer':
-            serializer.save(employer=self.request.user)
-        else:
-            raise PermissionDenied({"error": "Only employers can create job listings."})
+    permission_classes = [IsAuthenticated]
+    def post(self, request):
+        # প্রথমে সিরিয়ালাইজার থেকে ডাটা গ্রহণ করা
+        serializer = JobSerializer(data=request.data)
+
+        if serializer.is_valid():
+            job = serializer.save(employer=request.user)
+
+            # যদি ফাইল থাকে তবে ImageBB তে আপলোড করা হবে
+            image_file = request.FILES.get('image', None)
+            print(image_file)
+            if image_file:
+                url = "https://api.imgbb.com/1/upload"
+                files = {
+                    'image': image_file,
+                }
+                data = {
+                    'key': IMAGEBB_API_KEY,
+                }
+
+                # API তে রিকুয়েস্ট পাঠানো
+                response = requests.post(url, data=data, files=files)
+
+                # যদি রিকুয়েস্ট সফল হয় তাহলে image_url আপডেট করা
+                if response.status_code == 200:
+                    image_url = response.json()['data']['url']
+                    job.image_url = image_url
+                    job.save()
+
+            return Response(JobSerializer(job).data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
     def get_queryset(self):
         category_id = self.request.query_params.get('category', None)
         if category_id is not None:

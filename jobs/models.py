@@ -18,7 +18,7 @@ class Job(models.Model):
     location = models.CharField(max_length=255)
     company_name = models.CharField(max_length=255)
     date_posted = models.DateTimeField(auto_now_add=True)
-
+    image_url = models.URLField(max_length=500,null=True,blank=True)
     def __str__(self):
         return self.title
     
