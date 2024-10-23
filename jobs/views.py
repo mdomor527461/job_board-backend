@@ -15,37 +15,15 @@ IMAGEBB_API_KEY = '60f5767e7375b712f0cc7276b0840596'
 class JobListCreateView(generics.ListCreateAPIView):
     queryset = Job.objects.all()
     serializer_class = JobSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
     def post(self, request):
-        # প্রথমে সিরিয়ালাইজার থেকে ডাটা গ্রহণ করা
-        serializer = JobSerializer(data=request.data)
-
-        if serializer.is_valid():
-            job = serializer.save(employer=request.user)
-
-            # যদি ফাইল থাকে তবে ImageBB তে আপলোড করা হবে
-            image_file = request.FILES.get('image', None)
-            print(image_file)
-            if image_file:
-                url = "https://api.imgbb.com/1/upload"
-                files = {
-                    'image': image_file,
-                }
-                data = {
-                    'key': IMAGEBB_API_KEY,
-                }
-
-                # API তে রিকুয়েস্ট পাঠানো
-                response = requests.post(url, data=data, files=files)
-
-                # যদি রিকুয়েস্ট সফল হয় তাহলে image_url আপডেট করা
-                if response.status_code == 200:
-                    image_url = response.json()['data']['url']
-                    job.image_url = image_url
-                    job.save()
-
-            return Response(JobSerializer(job).data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        if self.request.user.user_type == "employer":
+            serializer = JobSerializer(data=request.data)
+            if serializer.is_valid():
+                serializer.save(employer=request.user)
+                return Response({"success" : "job list create successfully"})
+        else:
+            raise PermissionDenied({"error":"Only employer can create job listing"})
 
     def get_queryset(self):
         category_id = self.request.query_params.get('category', None)
