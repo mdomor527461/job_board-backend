@@ -27,9 +27,13 @@ class JobListCreateView(generics.ListCreateAPIView):
 
     def get_queryset(self):
         category_id = self.request.query_params.get('category', None)
+        employer_id = self.request.query_params.get('employer',None)
         if category_id is not None:
             return Job.objects.filter(category__id=category_id)
+        if employer_id is not None:
+            return Job.objects.filter(employer__id = employer_id)
         return Job.objects.all()
+    
 
 class JobDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Job.objects.all()
