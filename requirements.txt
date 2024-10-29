@@ -16,6 +16,7 @@ djoser==2.2.3
 environ==1.0
 idna==3.10
 oauthlib==3.2.2
+pillow==11.0.0
 psycopg2-binary==2.9.10
 pycparser==2.22
 PyJWT==2.9.0
@@ -26,6 +27,7 @@ six==1.16.0
 social-auth-app-django==5.4.2
 social-auth-core==4.5.4
 sqlparse==0.5.1
+sslcommerz-lib==1.0
 tzdata==2024.2
 urllib3==2.2.3
 whitenoise==6.7.0
