@@ -24,6 +24,11 @@ cloudinary.config(
     api_key='188471628827559',        
     api_secret='mj-KhQaH6U2V2aE5PcymbkuxWPA', 
 )
+# settings.py
+# SSL_COMMERZ_STORE_ID = 'omor fauk'
+# SSL_COMMERZ_STORE_PASSWORD = 'AmAr1234'
+# SSL_COMMERZ_URL = 'https://sandbox.sslcommerz.com/manage/'  # Production link change korte hobe
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 

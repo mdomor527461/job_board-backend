@@ -11,7 +11,12 @@ from rest_framework.permissions import AllowAny
 import requests
 from rest_framework.response import Response
 from rest_framework import status
+import time
+from sslcommerz_lib import SSLCOMMERZ 
+#imagebb api key
 IMAGEBB_API_KEY = 'bd168c98953ad999e53d8ca206d477fa'
+
+
 class UserCreateView(generics.CreateAPIView):
     permission_classes = [AllowAny]
     queryset = User.objects.all()
@@ -109,4 +114,47 @@ class UserListApiView(generics.ListAPIView):
         return User.objects.all()
 
 
-        
+#payment initiate
+class SSLCommerzInitiatePayment(APIView):
+
+    def post(self, request):
+        # User & payment related data request theke receive korun
+        user = request.user
+        tran_id = f"{user.id}_{int(time.time())}"  # Unique transaction ID
+        id = user.id
+        # SSLCommerz API call parameters
+        settings = { 'store_id': 'jobhu6720867087e9e', 'store_pass': 'jobhu6720867087e9e@ssl', 'issandbox': True }
+        sslcz = SSLCOMMERZ(settings)
+        post_body = {}
+        post_body['total_amount'] = 100.26
+        post_body['currency'] = "BDT"
+        post_body['tran_id'] = tran_id
+        post_body['success_url'] = "https://job-board-backend-lemon.vercel.app/api/users/payment/success/"
+        post_body['fail_url'] = "https://job-board-backend-lemon.vercel.app/api/users/"
+        post_body['cancel_url'] = "https://job-board-backend-lemon.vercel.app/api/users/"
+        post_body['emi_option'] = 0
+        post_body['cus_name'] = user.username
+        post_body['cus_email'] = user.email
+        post_body['cus_phone'] = "01963367311"
+        post_body['cus_add1'] = "customer address"
+        post_body['cus_city'] = "Dhaka"
+        post_body['cus_country'] = "Bangladesh"
+        post_body['shipping_method'] = "NO"
+        post_body['multi_card_name'] = ""
+        post_body['num_of_item'] = 1
+        post_body['product_name'] = "Test"
+        post_body['product_category'] = "Test Category"
+        post_body['product_profile'] = "general"
+
+        response = sslcz.createSession(post_body)
+        print(response)
+        return Response(response['GatewayPageURL'])
+#payment success view
+class PaymentSuccessView(APIView):
+    def post(self,request):
+        user = request.user
+        if not user.is_authenticated:
+            return Response({'error': 'User not authenticated'}, status=status.HTTP_401_UNAUTHORIZED)
+        user.is_premium = True
+        user.save()
+        return Response({'success': "Congratulations You Get Premium Membership"}, status=status.HTTP_200_OK)
