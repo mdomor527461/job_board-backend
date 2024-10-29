@@ -7,6 +7,6 @@ urlpatterns = [
     path('register/', UserCreateView.as_view(), name='register'),
     path('login/', UserLoginApiView.as_view(), name='api-login'),
     path('logout/', UserLogoutView.as_view(), name='logout'),
-    path('payment/', SSLCommerzInitiatePayment.as_view(), name='sslcommerz_initiate'),
-    path('payment/success/', PaymentSuccessView.as_view(), name='payment'),
+    # path('payment/', SSLCommerzInitiatePayment.as_view(), name='sslcommerz_initiate'),
+    # path('payment/success/', PaymentSuccessView.as_view(), name='payment'),
 ]
