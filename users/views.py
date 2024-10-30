@@ -129,7 +129,7 @@ class SSLCommerzInitiatePayment(APIView):
         post_body['total_amount'] = 100.26
         post_body['currency'] = "BDT"
         post_body['tran_id'] = tran_id
-        post_body['success_url'] = f"https://job-board-backend-lemon.vercel.app/api/users/payment/success/{id}"
+        post_body['success_url'] = f"https://job-board-backend-lemon.vercel.app/api/users/payment/success/{id}/"
         post_body['fail_url'] = "https://job-board-backend-lemon.vercel.app/api/users/"
         post_body['cancel_url'] = "https://job-board-backend-lemon.vercel.app/api/users/"
         post_body['emi_option'] = 0
