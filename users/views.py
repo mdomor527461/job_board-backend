@@ -13,6 +13,7 @@ from rest_framework.response import Response
 from rest_framework import status
 import time
 from sslcommerz_lib import SSLCOMMERZ 
+
 #imagebb api key
 IMAGEBB_API_KEY = 'bd168c98953ad999e53d8ca206d477fa'
 
@@ -143,6 +144,8 @@ class SSLCommerzInitiatePayment(APIView):
         post_body['multi_card_name'] = ""
         post_body['num_of_item'] = 1
         post_body['product_name'] = "Test"
+
+
         post_body['product_category'] = "Test Category"
         post_body['product_profile'] = "general"
 
@@ -157,6 +160,6 @@ class PaymentSuccessView(APIView):
         if user:
             user.is_premium = True
             user.save()
-            return Response({'success': "Congratulations You Get Premium Membership"}, status=status.HTTP_200_OK)
+            return redirect('http://127.0.0.1:5501')
         return Response({'error': 'User not authenticated'}, status=status.HTTP_401_UNAUTHORIZED)
        
