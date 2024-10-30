@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import UserCreateView
-from .views import UserLoginApiView,UserLogoutView,UserListApiView,SSLCommerzInitiatePayment,PaymentSuccessView
+from .views import UserLoginApiView,UserLogoutView,UserListApiView,SSLCommerzInitiatePayment,PaymentSuccessView,PaymentFailView
 
 urlpatterns = [
     path('',UserListApiView.as_view(),name='users'),
@@ -9,4 +9,5 @@ urlpatterns = [
     path('logout/', UserLogoutView.as_view(), name='logout'),
     path('payment/', SSLCommerzInitiatePayment.as_view(), name='sslcommerz_initiate'),
     path('payment/success/<int:id>/', PaymentSuccessView.as_view(), name='payment'),
+    path('payment/fail/<int:id>/', PaymentFailView.as_view(), name='payment_fail'),
 ]

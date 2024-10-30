@@ -131,8 +131,8 @@ class SSLCommerzInitiatePayment(APIView):
         post_body['currency'] = "BDT"
         post_body['tran_id'] = tran_id
         post_body['success_url'] = f"https://job-board-backend-lemon.vercel.app/api/users/payment/success/{id}/"
-        post_body['fail_url'] = "https://mdomor527461.github.io/job_board-frontend/profile.html"
-        post_body['cancel_url'] = "https://mdomor527461.github.io/job_board-frontend/profile.html"
+        post_body['fail_url'] = f"https://job-board-backend-lemon.vercel.app/api/users/payment/success/{id}/"
+        post_body['cancel_url'] = f"https://job-board-backend-lemon.vercel.app/api/users/payment/fail/{id}/"
         post_body['emi_option'] = 0
         post_body['cus_name'] = user.username
         post_body['cus_email'] = user.email
@@ -163,3 +163,6 @@ class PaymentSuccessView(APIView):
             return redirect('https://mdomor527461.github.io/job_board-frontend/profile.html')
         return Response({'error': 'User not authenticated'}, status=status.HTTP_401_UNAUTHORIZED)
        
+class PaymentFailView(APIView):
+    def post(self,request,id):
+         return redirect('https://mdomor527461.github.io/job_board-frontend/profile.html')
