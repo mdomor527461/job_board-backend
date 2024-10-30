@@ -129,7 +129,7 @@ class SSLCommerzInitiatePayment(APIView):
         post_body['total_amount'] = 100.26
         post_body['currency'] = "BDT"
         post_body['tran_id'] = tran_id
-        post_body['success_url'] = f"https://job-board-backend-lemon.vercel.app/api/users/payment/success/{id}"
+        post_body['success_url'] = f"https://job-board-backend-lemon.vercel.app/api/users/payment/success/100/"
         post_body['fail_url'] = "https://job-board-backend-lemon.vercel.app/api/users/"
         post_body['cancel_url'] = "https://job-board-backend-lemon.vercel.app/api/users/"
         post_body['emi_option'] = 0
@@ -153,8 +153,10 @@ class SSLCommerzInitiatePayment(APIView):
 class PaymentSuccessView(APIView):
     def post(self,request,id):
         user = User.objects.filter(id=id)
-        if not user.is_authenticated:
-            return Response({'error': 'User not authenticated'}, status=status.HTTP_401_UNAUTHORIZED)
-        user.is_premium = True
-        user.save()
-        return Response({'success': "Congratulations You Get Premium Membership"}, status=status.HTTP_200_OK)
+        print(user)
+        if user:
+            user.is_premium = True
+            user.save()
+            return Response({'success': "Congratulations You Get Premium Membership"}, status=status.HTTP_200_OK)
+        return Response({'error': 'User not authenticated'}, status=status.HTTP_401_UNAUTHORIZED)
+       
