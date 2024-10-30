@@ -131,7 +131,7 @@ class SSLCommerzInitiatePayment(APIView):
         post_body['currency'] = "BDT"
         post_body['tran_id'] = tran_id
         post_body['success_url'] = f"https://job-board-backend-lemon.vercel.app/api/users/payment/success/{id}/"
-        post_body['fail_url'] = f"https://job-board-backend-lemon.vercel.app/api/users/payment/success/{id}/"
+        post_body['fail_url'] = f"https://job-board-backend-lemon.vercel.app/api/users/payment/fail/{id}/"
         post_body['cancel_url'] = f"https://job-board-backend-lemon.vercel.app/api/users/payment/fail/{id}/"
         post_body['emi_option'] = 0
         post_body['cus_name'] = user.username
@@ -165,4 +165,7 @@ class PaymentSuccessView(APIView):
        
 class PaymentFailView(APIView):
     def post(self,request,id):
+         user = User.objects.get(id=id)
+         user.is_premium = False
+         user.save()
          return redirect('https://mdomor527461.github.io/job_board-frontend/profile.html')
