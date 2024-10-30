@@ -91,7 +91,7 @@ class UserLoginApiView(APIView):
             if user:
                 token, _ = Token.objects.get_or_create(user=user)
                 login(request, user)
-                return Response({'token': token.key, 'user_id': user.id,'user_type': user.user_type,'image_url':user.image_url})
+                return Response({'token': token.key, 'user_id': user.id,'user_type': user.user_type,'image_url':user.image_url,'is_premium':user.is_premium})
             else:
                 return Response({'error': "Invalid Credential"}, status=400)
         
