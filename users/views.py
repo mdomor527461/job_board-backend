@@ -160,6 +160,6 @@ class PaymentSuccessView(APIView):
         if user:
             user.is_premium = True
             user.save()
-            return redirect('http://127.0.0.1:5501/profile.html')
+            return redirect('https://mdomor527461.github.io/job_board-frontend/profile.html')
         return Response({'error': 'User not authenticated'}, status=status.HTTP_401_UNAUTHORIZED)
        
