@@ -129,7 +129,7 @@ class SSLCommerzInitiatePayment(APIView):
         post_body['total_amount'] = 100.26
         post_body['currency'] = "BDT"
         post_body['tran_id'] = tran_id
-        post_body['success_url'] = f"https://job-board-backend-lemon.vercel.app/api/users/payment/success/100/"
+        post_body['success_url'] = f"https://job-board-backend-lemon.vercel.app/api/users/payment/success/{id}"
         post_body['fail_url'] = "https://job-board-backend-lemon.vercel.app/api/users/"
         post_body['cancel_url'] = "https://job-board-backend-lemon.vercel.app/api/users/"
         post_body['emi_option'] = 0
@@ -152,7 +152,7 @@ class SSLCommerzInitiatePayment(APIView):
 #payment success view
 class PaymentSuccessView(APIView):
     def post(self,request,id):
-        user = User.objects.filter(id=id)
+        user = User.objects.get(id=id)
         print(user)
         if user:
             user.is_premium = True
